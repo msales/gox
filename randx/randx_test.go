@@ -96,7 +96,7 @@ func TestWhichHappens(t *testing.T) {
 			name: "no probability due to negatively exceeding first probability",
 			p:    []float32{-1.5,0.10},
 			seed: 9,
-			want: 0,
+			want: -1,
 		},
 	}
 	for _, tt := range tests {
