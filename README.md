@@ -6,4 +6,4 @@ An arbitrary set of Go standard library extensions.
 
 ## Disclaimer
 
-Following package contains various convenience extensions of a Gol standard library. No imports over standard library are allowed in this package.
+Following package contains various convenience extensions of a Go standard library. No imports over standard library are allowed in this package.
