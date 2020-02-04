@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/msales/gox/randx"
+	"gotest.tools/assert"
 )
 
 func TestHappens(t *testing.T) {
@@ -64,37 +65,37 @@ func TestHappens(t *testing.T) {
 func TestWhichHappens(t *testing.T) {
 	tests := []struct {
 		name string
-		p []float32
+		p    []float32
 		seed int64
 		want int
 	}{
 		{
 			name: "no probability happens due to seeded chance",
-			p:    []float32{0.15,0.10},
+			p:    []float32{0.15, 0.10},
 			seed: 0,
 			want: -1,
 		},
 		{
 			name: "first probability happens due to seeded chance",
-			p:    []float32{0.15,0.10},
+			p:    []float32{0.15, 0.10},
 			seed: 9,
 			want: 0,
 		},
 		{
 			name: "second probability happens due to seeded chance",
-			p:    []float32{0.15,0.10},
+			p:    []float32{0.15, 0.10},
 			seed: 4,
 			want: 1,
 		},
 		{
 			name: "first probability due to its exceeding probability",
-			p:    []float32{1.5,0.10},
+			p:    []float32{1.5, 0.10},
 			seed: 0,
 			want: 0,
 		},
 		{
 			name: "no probability due to negatively exceeding first probability",
-			p:    []float32{-1.5,0.10},
+			p:    []float32{-1.5, 0.10},
 			seed: 9,
 			want: -1,
 		},
@@ -102,9 +103,8 @@ func TestWhichHappens(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			rand.Seed(tt.seed)
-			if got := randx.WhichHappens(tt.p...); got != tt.want {
-				t.Errorf("WhichHappens() = %v, want %v", got, tt.want)
-			}
+			got := randx.WhichHappens(tt.p...)
+			assert.DeepEqual(t, got, tt.want)
 		})
 	}
 }
