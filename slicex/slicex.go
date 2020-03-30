@@ -166,12 +166,13 @@ func ContainsInt(slice []int, contains ...int) bool {
 
 	for _, s := range slice {
 		for _, c := range contains {
-			if s == c {
-				toCheck--
+			if s != c {
+				continue
+			}
 
-				if toCheck == 0 {
-					return true
-				}
+			toCheck--
+			if toCheck == 0 {
+				return true
 			}
 		}
 	}
