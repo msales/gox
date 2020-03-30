@@ -159,3 +159,23 @@ func InterfaceToFloat64(i []interface{}) ([]float64, error) {
 
 	return o, nil
 }
+
+// ContainsInt checks if all elements from `contains` list are on the `slice` list
+func ContainsInt(slice []int, contains ...int) bool {
+	toCheck := len(contains)
+
+	for _, s := range slice {
+		for _, c := range contains {
+			if s != c {
+				continue
+			}
+
+			toCheck--
+			if toCheck == 0 {
+				return true
+			}
+		}
+	}
+
+	return false
+}
