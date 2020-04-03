@@ -201,3 +201,82 @@ func BenchmarkContainsIntMany(b *testing.B) {
 		_ = ContainsInt(slice, checkMany...)
 	}
 }
+
+func TestStringsToInts(t *testing.T) {
+	tests := []struct {
+		name  string
+		slice []string
+		want  []int
+	}{
+		{
+			name:  "string slice with only numbers",
+			slice: []string{"1", "2", "3", "4", "5", "6"},
+			want:  []int{1, 2, 3, 4, 5, 6},
+		},
+		{
+			name:  "string slice containing also text",
+			slice: []string{"1", "2", "3", "4", "5", "test"},
+			want:  []int{1, 2, 3, 4, 5},
+		},
+		{
+			name:  "empty slice",
+			slice: []string{},
+			want:  []int{},
+		},
+		{
+			name:  "nil slice",
+			slice: nil,
+			want:  []int{},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			assert.DeepEqual(t, tt.want, StringsToInts(tt.slice))
+		})
+	}
+}
+
+func BenchmarkStringsToInts(b *testing.B) {
+	slice := []string{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}
+	b.ReportAllocs()
+	for i := 0; i < b.N; i++ {
+		_ = StringsToInts(slice)
+	}
+}
+
+func TestIntsToStrings(t *testing.T) {
+	tests := []struct {
+		name  string
+		slice []int
+		want  []string
+	}{
+		{
+			name:  "full slice",
+			slice: []int{1, 2, 3, 4, 5, 6},
+			want:  []string{"1", "2", "3", "4", "5", "6"},
+		},
+		{
+			name:  "empty slice",
+			slice: []int{},
+			want:  []string{},
+		},
+		{
+			name:  "nil slice",
+			slice: nil,
+			want:  []string{},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			assert.DeepEqual(t, tt.want, IntsToStrings(tt.slice))
+		})
+	}
+}
+
+func BenchmarkIntsToStrings(b *testing.B) {
+	slice := []int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
+	b.ReportAllocs()
+	for i := 0; i < b.N; i++ {
+		_ = IntsToStrings(slice)
+	}
+}
