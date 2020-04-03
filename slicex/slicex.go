@@ -1,6 +1,8 @@
 package slicex
 
 import (
+	"strconv"
+
 	"golang.org/x/xerrors"
 )
 
@@ -178,4 +180,29 @@ func ContainsInt(slice []int, contains ...int) bool {
 	}
 
 	return false
+}
+
+// StringsToInts maps string slice to int slice
+func StringsToInts(ds []string) []int {
+	ret := make([]int, 0, len(ds))
+	for _, d := range ds {
+		a, err := strconv.Atoi(d)
+		if err != nil {
+			continue
+		}
+
+		ret = append(ret, a)
+	}
+
+	return ret
+}
+
+// IntsToStrings maps int slice to string slice
+func IntsToStrings(is []int) []string {
+	ret := make([]string, 0, len(is))
+	for _, i := range is {
+		ret = append(ret, strconv.Itoa(i))
+	}
+
+	return ret
 }
