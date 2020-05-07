@@ -5,7 +5,6 @@ import (
 	"testing"
 
 	"github.com/msales/gox/randx"
-	"gotest.tools/assert"
 )
 
 func TestHappens(t *testing.T) {
@@ -103,8 +102,9 @@ func TestWhichHappens(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			rand.Seed(tt.seed)
-			got := randx.WhichHappens(tt.p...)
-			assert.DeepEqual(t, got, tt.want)
+			if got := randx.WhichHappens(tt.p...); got != tt.want {
+				t.Errorf("Got %+v, want %+v", got, tt.want)
+			}
 		})
 	}
 }
