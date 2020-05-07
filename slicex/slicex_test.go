@@ -184,6 +184,51 @@ func TestContainsInt(t *testing.T) {
 	}
 }
 
+func TestContainsInt32(t *testing.T) {
+	tests := []struct {
+		name     string
+		slice    []int32
+		contains []int32
+		want     bool
+	}{
+		{
+			name:     "a slice containing exacly 1 element",
+			slice:    []int32{1, 2, 3, 4, 5, 6},
+			contains: []int32{3},
+			want:     true,
+		},
+		{
+			name:     "a slice containing exacly 3 elements",
+			slice:    []int32{1, 2, 3, 4, 5, 6},
+			contains: []int32{3, 5, 6},
+			want:     true,
+		},
+		{
+			name:     "a slice containing only part of needed",
+			slice:    []int32{1, 2, 3, 4, 5, 6},
+			contains: []int32{3, 5, 6, 7},
+			want:     false,
+		},
+		{
+			name:     "a slice not contains element with 1 element to check",
+			slice:    []int32{1, 2, 3, 4, 5, 6},
+			contains: []int32{7},
+			want:     false,
+		},
+		{
+			name:     "a slice not contains any element with 2 elements to check",
+			slice:    []int32{1, 2, 3, 4, 5, 6},
+			contains: []int32{7, 9},
+			want:     false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			assert.Equal(t, tt.want, ContainsInt32(tt.slice, tt.contains...))
+		})
+	}
+}
+
 func BenchmarkContainsIntOne(b *testing.B) {
 	slice := []int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
 	checkOne := 4

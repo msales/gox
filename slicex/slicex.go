@@ -182,6 +182,25 @@ func ContainsInt(slice []int, contains ...int) bool {
 	return false
 }
 
+func ContainsInt32(slice []int32, contains ...int32) bool {
+	toCheck := len(contains)
+
+	for _, s := range slice {
+		for _, c := range contains {
+			if s != c {
+				continue
+			}
+
+			toCheck--
+			if toCheck == 0 {
+				return true
+			}
+		}
+	}
+
+	return false
+}
+
 // StringsToInts maps string slice to int slice
 func StringsToInts(ds []string) []int {
 	ret := make([]int, 0, len(ds))
