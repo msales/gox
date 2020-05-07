@@ -4,7 +4,6 @@ import (
 	"testing"
 
 	. "github.com/msales/gox/mathx"
-	"gotest.tools/assert"
 )
 
 func TestRound(t *testing.T) {
@@ -47,7 +46,9 @@ func TestRound(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			assert.Equal(t, tt.want, Round(tt.in, tt.decimals))
+			if got := Round(tt.in, tt.decimals); got != tt.want {
+				t.Errorf("Got %+v, want %+v", got, tt.want)
+			}
 		})
 	}
 }
