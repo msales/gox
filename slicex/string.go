@@ -63,7 +63,7 @@ func StringToInt64(i []string) ([]int64, error) {
 	return o, nil
 }
 
-// StringToInt64 converts string input to float32 slice.
+// StringToFloat32 converts string input to float32 slice.
 // Returns error on failed type assertion.
 func StringToFloat32(i []string) ([]float32, error) {
 	o := make([]float32, len(i))
@@ -79,7 +79,7 @@ func StringToFloat32(i []string) ([]float32, error) {
 	return o, nil
 }
 
-// StringToInt64 converts string input to float64 slice.
+// StringToFloat64 converts string input to float64 slice.
 // Returns error on failed type assertion.
 func StringToFloat64(i []string) ([]float64, error) {
 	o := make([]float64, len(i))
