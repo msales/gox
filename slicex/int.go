@@ -61,3 +61,34 @@ func IntToFloat64(i []int) []float64 {
 
 	return o
 }
+
+// ContainsInt checks if all elements from needles list are in the haystack.
+func ContainsInt(haystack []int, needles ...int) bool {
+	// Avoid allocations for a single check.
+	if len(needles) == 1 {
+		for _, h := range haystack {
+			if h == needles[0] {
+				return true
+			}
+		}
+		return false
+	}
+
+	checks := make(map[int]struct{}, len(needles))
+	for _, n := range needles {
+		checks[n] = struct{}{}
+	}
+
+	for _, h := range haystack {
+		_, ok := checks[h]
+		if ok {
+			delete(checks, h)
+
+			if len(checks) == 0 {
+				return true
+			}
+		}
+	}
+
+	return false
+}

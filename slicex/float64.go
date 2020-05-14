@@ -25,7 +25,7 @@ func Float64ToString(i []float64, precision int) []string {
 // Float64ToInt converts float64 input to int slice.
 func Float64ToInt(i []float64) []int {
 	o := make([]int, len(i))
-	for k, v  := range i {
+	for k, v := range i {
 		o[k] = int(v)
 	}
 
@@ -35,7 +35,7 @@ func Float64ToInt(i []float64) []int {
 // Float64ToInt32 converts float64 input to int32 slice.
 func Float64ToInt32(i []float64) []int32 {
 	o := make([]int32, len(i))
-	for k, v  := range i {
+	for k, v := range i {
 		o[k] = int32(v)
 	}
 
@@ -45,7 +45,7 @@ func Float64ToInt32(i []float64) []int32 {
 // Float64ToInt64 converts float64 input to int64 slice.
 func Float64ToInt64(i []float64) []int64 {
 	o := make([]int64, len(i))
-	for k, v  := range i {
+	for k, v := range i {
 		o[k] = int64(v)
 	}
 
@@ -55,9 +55,40 @@ func Float64ToInt64(i []float64) []int64 {
 // Float64ToFloat32 converts float64 input to float32 slice.
 func Float64ToFloat32(i []float64) []float32 {
 	o := make([]float32, len(i))
-	for k, v  := range i {
+	for k, v := range i {
 		o[k] = float32(v)
 	}
 
 	return o
+}
+
+// ContainsFloat64 checks if all elements from needles list are in the haystack.
+func ContainsFloat64(haystack []float64, needles ...float64) bool {
+	// Avoid allocations for a single check.
+	if len(needles) == 1 {
+		for _, h := range haystack {
+			if h == needles[0] {
+				return true
+			}
+		}
+		return false
+	}
+
+	checks := make(map[float64]struct{}, len(needles))
+	for _, n := range needles {
+		checks[n] = struct{}{}
+	}
+
+	for _, h := range haystack {
+		_, ok := checks[h]
+		if ok {
+			delete(checks, h)
+
+			if len(checks) == 0 {
+				return true
+			}
+		}
+	}
+
+	return false
 }

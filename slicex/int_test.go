@@ -275,3 +275,69 @@ func TestIntToFloat64(t *testing.T) {
 		})
 	}
 }
+
+func TestContainsInt(t *testing.T) {
+	tests := []struct {
+		name     string
+		slice    []int
+		contains []int
+		want     bool
+	}{
+		{
+			name:     "found 1 element",
+			slice:    []int{1, 2, 3, 4, 5, 6},
+			contains: []int{3},
+			want:     true,
+		},
+		{
+			name:     "found 3 elements",
+			slice:    []int{1, 2, 3, 4, 5, 6},
+			contains: []int{3, 5, 6},
+			want:     true,
+		},
+		{
+			name:     "found some but not all elements",
+			slice:    []int{1, 2, 3, 4, 5, 6},
+			contains: []int{3, 5, 6, 7},
+			want:     false,
+		},
+		{
+			name:     "found no elements",
+			slice:    []int{1, 2, 3, 4, 5, 6},
+			contains: []int{7, 9},
+			want:     false,
+		},
+		{
+			name:     "found no element",
+			slice:    []int{1, 2, 3, 4, 5, 6},
+			contains: []int{7},
+			want:     false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := ContainsInt(tt.slice, tt.contains...)
+			if tt.want != got {
+				t.Errorf("Got %+v, want %+v", got, tt.want)
+			}
+		})
+	}
+}
+
+func BenchmarkContainsInt_Single(b *testing.B) {
+	haystack := []int{1, 2, 3, 4, 5, 6}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		ContainsInt(haystack, 3)
+	}
+}
+
+func BenchmarkContainsInt_Multiple(b *testing.B) {
+	haystack := []int{1, 2, 3, 4, 5, 6}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		ContainsInt(haystack, 2, 3)
+	}
+}
