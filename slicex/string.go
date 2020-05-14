@@ -3,6 +3,7 @@ package slicex
 import (
 	"fmt"
 	"strconv"
+	"strings"
 )
 
 // StringToInterface converts string input to interface slice.
@@ -93,4 +94,80 @@ func StringToFloat64(i []string) ([]float64, error) {
 	}
 
 	return o, nil
+}
+
+// ContainsString checks if all elements from needles list are in the haystack.
+func ContainsString(haystack []string, needles ...string) bool {
+	// Avoid allocations for a single check.
+	if len(needles) == 1 {
+		for _, h := range haystack {
+			if h == needles[0] {
+				return true
+			}
+		}
+		return false
+	}
+
+	checks := make(map[string]struct{}, len(needles))
+	for _, n := range needles {
+		checks[n] = struct{}{}
+	}
+
+	for _, h := range haystack {
+		_, ok := checks[h]
+		if ok {
+			delete(checks, h)
+
+			if len(checks) == 0 {
+				return true
+			}
+		}
+	}
+
+	return false
+}
+
+// MatchesString checks if all elements from needles list are in the haystack in a case insensitive manner.
+func MatchesString(haystack []string, needles ...string) bool {
+	// Avoid allocations for a single check.
+	if len(needles) == 1 {
+		for _, h := range haystack {
+			if strings.EqualFold(h, needles[0]) {
+				return true
+			}
+		}
+		return false
+	}
+
+	checks := make(map[string]struct{}, len(needles))
+	for _, n := range needles {
+		checks[strings.ToLower(n)] = struct{}{}
+	}
+
+	for _, h := range haystack {
+		_, ok := checks[strings.ToLower(h)]
+		if ok {
+			delete(checks, h)
+
+			if len(checks) == 0 {
+				return true
+			}
+		}
+	}
+
+	return false
+}
+
+// TrimString removes empty string or whitespace only elements out of given string slice.
+func TrimString(i []string) []string {
+	var o []string
+	for _, v := range i {
+		if strings.TrimSpace(v) == "" {
+			continue
+		}
+
+		o = append(o, v)
+	}
+
+	return o
 }
