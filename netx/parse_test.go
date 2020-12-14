@@ -9,12 +9,12 @@ func TestRawIPToUint(t *testing.T) {
 		want uint32
 	}{
 		{
-			name: "incorrect IP",
+			name: "incorrect IP - 123",
 			raw:  "123",
 			want: 0,
 		},
 		{
-			name: "incorrect IP",
+			name: "incorrect IP - test",
 			raw:  "test",
 			want: 0,
 		},
@@ -39,11 +39,6 @@ func TestUintToIP(t *testing.T) {
 		uintIP uint32
 		want   string
 	}{
-		{
-			name:   "incorrect IP",
-			uintIP: 0,
-			want:   "0.0.0.0",
-		},
 		{
 			name:   "incorrect IP",
 			uintIP: 0,
