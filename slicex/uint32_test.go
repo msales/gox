@@ -6,6 +6,51 @@ import (
 	. "github.com/msales/gox/slicex"
 )
 
+func TestUint32ToInterface(t *testing.T) {
+	tests := []struct {
+		name  string
+		input []uint32
+		want  []interface{}
+	}{
+		{
+			name:  "correct input",
+			input: []uint32{1, 2, 3},
+			want:  []interface{}{1, 2, 3},
+		},
+		{
+			name:  "empty input",
+			input: []uint32{},
+			want:  []interface{}{},
+		},
+		{
+			name:  "nil input",
+			input: nil,
+			want:  []interface{}{},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := Uint32ToInterface(tt.input)
+
+			if tt.want == nil && got != nil {
+				t.Errorf("Expected nil result got %+v instead", got)
+				return
+			}
+
+			if len(tt.want) != len(got) {
+				t.Errorf("Got %+v, want %+v", got, tt.want)
+				return
+			}
+
+			for k, v := range tt.want {
+				if v != got[k] {
+					t.Errorf("Got %+v, want %+v", got, tt.want)
+				}
+			}
+		})
+	}
+}
+
 func TestContainsUint32(t *testing.T) {
 	tests := []struct {
 		name     string

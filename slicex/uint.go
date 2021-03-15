@@ -30,3 +30,13 @@ func ContainsUint(haystack []uint, needles ...uint) bool {
 
 	return false
 }
+
+// UintToInterface converts uint input to interface slice.
+func UintToInterface(i []uint) []interface{} {
+	o := make([]interface{}, len(i))
+	for k, v := range i {
+		o[k] = v
+	}
+
+	return o
+}

@@ -30,3 +30,13 @@ func ContainsUint64(haystack []uint64, needles ...uint64) bool {
 
 	return false
 }
+
+// Uint64ToInterface converts uint input to interface slice.
+func Uint64ToInterface(i []uint64) []interface{} {
+	o := make([]interface{}, len(i))
+	for k, v := range i {
+		o[k] = v
+	}
+
+	return o
+}
