@@ -15,7 +15,7 @@ func TestUint64ToInterface(t *testing.T) {
 		{
 			name:  "correct input",
 			input: []uint64{1, 2, 3},
-			want:  []interface{}{1, 2, 3},
+			want:  []interface{}{uint64(1), uint64(2), uint64(3)},
 		},
 		{
 			name:  "empty input",

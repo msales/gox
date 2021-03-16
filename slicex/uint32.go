@@ -31,7 +31,7 @@ func ContainsUint32(haystack []uint32, needles ...uint32) bool {
 	return false
 }
 
-// Uint32ToInterface converts uint input to interface slice.
+// Uint32ToInterface converts uint32 input to interface slice.
 func Uint32ToInterface(i []uint32) []interface{} {
 	o := make([]interface{}, len(i))
 	for k, v := range i {

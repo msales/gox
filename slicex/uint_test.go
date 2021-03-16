@@ -15,7 +15,7 @@ func TestUintToInterface(t *testing.T) {
 		{
 			name:  "correct input",
 			input: []uint{1, 2, 3},
-			want:  []interface{}{1, 2, 3},
+			want:  []interface{}{uint(1), uint(2), uint(3)},
 		},
 		{
 			name:  "empty input",
