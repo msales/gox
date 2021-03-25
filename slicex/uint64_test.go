@@ -6,6 +6,51 @@ import (
 	. "github.com/msales/gox/slicex"
 )
 
+func TestUint64ToInterface(t *testing.T) {
+	tests := []struct {
+		name  string
+		input []uint64
+		want  []interface{}
+	}{
+		{
+			name:  "correct input",
+			input: []uint64{1, 2, 3},
+			want:  []interface{}{uint64(1), uint64(2), uint64(3)},
+		},
+		{
+			name:  "empty input",
+			input: []uint64{},
+			want:  []interface{}{},
+		},
+		{
+			name:  "nil input",
+			input: nil,
+			want:  []interface{}{},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := Uint64ToInterface(tt.input)
+
+			if tt.want == nil && got != nil {
+				t.Errorf("Expected nil result got %+v instead", got)
+				return
+			}
+
+			if len(tt.want) != len(got) {
+				t.Errorf("Got %+v, want %+v", got, tt.want)
+				return
+			}
+
+			for k, v := range tt.want {
+				if v != got[k] {
+					t.Errorf("Got %+v, want %+v", got, tt.want)
+				}
+			}
+		})
+	}
+}
+
 func TestContainsUint64(t *testing.T) {
 	tests := []struct {
 		name     string
