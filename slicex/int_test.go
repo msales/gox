@@ -341,3 +341,187 @@ func BenchmarkContainsInt_Multiple(b *testing.B) {
 		ContainsInt(haystack, 2, 3)
 	}
 }
+
+func TestIntOuter(t *testing.T) {
+	tests := []struct {
+		name   string
+		slice1 []int
+		slice2 []int
+		want   []int
+	}{
+		{
+			name:   "outersection first slice",
+			slice1: []int{1, 2, 3},
+			slice2: []int{3},
+			want:   []int{1, 2},
+		},
+		{
+			name:   "outersection second slice",
+			slice1: []int{3},
+			slice2: []int{1, 2, 3},
+			want:   []int{1, 2},
+		},
+		{
+			name:   "outersection both slices",
+			slice1: []int{3, 4, 5},
+			slice2: []int{1, 2, 3},
+			want:   []int{1, 2, 4, 5},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := IntOuter(tt.slice1, tt.slice2)
+			if tt.want == nil && got != nil {
+				t.Errorf("Expected nil result got %+v instead", got)
+				return
+			}
+
+			if len(tt.want) != len(got) {
+				t.Errorf("Got %+v, want %+v", got, tt.want)
+				return
+			}
+
+			for k, v := range tt.want {
+				if v != got[k] {
+					t.Errorf("Got %+v, want %+v", got, tt.want)
+				}
+			}
+		})
+	}
+}
+
+func BenchmarkIntOuter_Both(b *testing.B) {
+	slice1 := []int{1, 2, 3, 4, 5, 6}
+	slice2 := []int{5, 6, 7, 8, 9, 10}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		IntOuter(slice1, slice2)
+	}
+}
+
+func BenchmarkIntOuter_Left(b *testing.B) {
+	slice1 := []int{1, 2, 3, 4, 5, 6}
+	slice2 := []int{5, 6}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		IntOuter(slice1, slice2)
+	}
+}
+
+func TestIntOuterLeft(t *testing.T) {
+	tests := []struct {
+		name   string
+		slice1 []int
+		slice2 []int
+		want   []int
+	}{
+		{
+			name:   "outersection first slice",
+			slice1: []int{1, 2, 3},
+			slice2: []int{3},
+			want:   []int{1, 2},
+		},
+		{
+			name:   "outersection second slice",
+			slice1: []int{3},
+			slice2: []int{1, 2, 3},
+			want:   []int{},
+		},
+		{
+			name:   "outersection both slices",
+			slice1: []int{3, 4, 5},
+			slice2: []int{1, 2, 3},
+			want:   []int{4, 5},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := IntOuterLeft(tt.slice1, tt.slice2)
+			if tt.want == nil && got != nil {
+				t.Errorf("Expected nil result got %+v instead", got)
+				return
+			}
+
+			if len(tt.want) != len(got) {
+				t.Errorf("Got %+v, want %+v", got, tt.want)
+				return
+			}
+
+			for k, v := range tt.want {
+				if v != got[k] {
+					t.Errorf("Got %+v, want %+v", got, tt.want)
+				}
+			}
+		})
+	}
+}
+
+func BenchmarkIntOuterLeft(b *testing.B) {
+	slice1 := []int{1, 2, 3, 4, 5, 6}
+	slice2 := []int{5, 6, 7, 8}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		IntOuterLeft(slice1, slice2)
+	}
+}
+
+func TestIntOuterRight(t *testing.T) {
+	tests := []struct {
+		name   string
+		slice1 []int
+		slice2 []int
+		want   []int
+	}{
+		{
+			name:   "outersection first slice",
+			slice1: []int{1, 2, 3},
+			slice2: []int{3},
+			want:   []int{},
+		},
+		{
+			name:   "outersection second slice",
+			slice1: []int{3},
+			slice2: []int{1, 2, 3},
+			want:   []int{1, 2},
+		},
+		{
+			name:   "outersection both slices",
+			slice1: []int{3, 4, 5},
+			slice2: []int{1, 2, 3},
+			want:   []int{1, 2},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := IntOuterRight(tt.slice1, tt.slice2)
+			if tt.want == nil && got != nil {
+				t.Errorf("Expected nil result got %+v instead", got)
+				return
+			}
+
+			if len(tt.want) != len(got) {
+				t.Errorf("Got %+v, want %+v", got, tt.want)
+				return
+			}
+
+			for k, v := range tt.want {
+				if v != got[k] {
+					t.Errorf("Got %+v, want %+v", got, tt.want)
+				}
+			}
+		})
+	}
+}
+
+func BenchmarkIntOuterRight(b *testing.B) {
+	slice1 := []int{1, 2, 3, 4, 5, 6}
+	slice2 := []int{5, 6, 7, 8}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		IntOuterRight(slice1, slice2)
+	}
+}
