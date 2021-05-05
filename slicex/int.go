@@ -111,7 +111,7 @@ func IntOuter(slice1, slice2 []int) []int {
 	}
 
 	outer := make([]int, 0, len(slice1)+len(slice2))
-	for id := range idx {
+	for _, id := range idx {
 		if checks[id] == 1 {
 			outer = append(outer, id)
 		}
@@ -123,17 +123,15 @@ func IntOuter(slice1, slice2 []int) []int {
 // IntOuterLeft returns left outersection of 2 slices.
 func IntOuterLeft(slice1, slice2 []int) []int {
 	checks := make(map[int]int8, len(slice1))
-	idx := make([]int, 0, len(slice1))
 	for _, v := range slice1 {
 		checks[v]++
-		idx = append(idx, v)
 	}
 	for _, v := range slice2 {
 		checks[v]++
 	}
 
 	outer := make([]int, 0, len(slice1))
-	for _, id := range idx {
+	for _, id := range slice1 {
 		if checks[id] == 1 {
 			outer = append(outer, id)
 		}
@@ -145,17 +143,15 @@ func IntOuterLeft(slice1, slice2 []int) []int {
 // IntOuterRight returns right outersection of 2 slices.
 func IntOuterRight(slice1, slice2 []int) []int {
 	checks := make(map[int]int8, len(slice2))
-	idx := make([]int, 0, len(slice2))
 	for _, v := range slice2 {
 		checks[v]++
-		idx = append(idx, v)
 	}
 	for _, v := range slice1 {
 		checks[v]++
 	}
 
 	outer := make([]int, 0, len(slice2))
-	for _, id := range idx {
+	for _, id := range slice2 {
 		if checks[id] == 1 {
 			outer = append(outer, id)
 		}
