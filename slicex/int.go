@@ -95,8 +95,9 @@ func ContainsInt(haystack []int, needles ...int) bool {
 	return false
 }
 
-// IntOuter returns outersection of 2 slices.
-func IntOuter(slice1, slice2 []int) []int {
+// IntSymDiff returns symmetric difference of 2 slices.
+// https://en.wikipedia.org/wiki/Symmetric_difference
+func IntSymDiff(slice1, slice2 []int) []int {
 	checks := make(map[int]int8, len(slice1)+len(slice2))
 	idx := make([]int, 0, len(slice1)+len(slice2))
 	for _, v := range slice1 {
@@ -120,8 +121,8 @@ func IntOuter(slice1, slice2 []int) []int {
 	return outer
 }
 
-// IntOuterLeft returns left outersection of 2 slices.
-func IntOuterLeft(slice1, slice2 []int) []int {
+// IntDiffLeft returns left diff of 2 slices.
+func IntDiffLeft(slice1, slice2 []int) []int {
 	checks := make(map[int]int8, len(slice1))
 	for _, v := range slice1 {
 		checks[v]++
@@ -140,22 +141,7 @@ func IntOuterLeft(slice1, slice2 []int) []int {
 	return outer
 }
 
-// IntOuterRight returns right outersection of 2 slices.
-func IntOuterRight(slice1, slice2 []int) []int {
-	checks := make(map[int]int8, len(slice2))
-	for _, v := range slice2 {
-		checks[v]++
-	}
-	for _, v := range slice1 {
-		checks[v]++
-	}
-
-	outer := make([]int, 0, len(slice2))
-	for _, id := range slice2 {
-		if checks[id] == 1 {
-			outer = append(outer, id)
-		}
-	}
-
-	return outer
+// IntDiffRight returns right diff of 2 slices.
+func IntDiffRight(slice1, slice2 []int) []int {
+	return IntDiffLeft(slice2, slice1)
 }
