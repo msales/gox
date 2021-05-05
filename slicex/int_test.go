@@ -365,7 +365,7 @@ func TestIntOuter(t *testing.T) {
 			name:   "outersection both slices",
 			slice1: []int{3, 4, 5},
 			slice2: []int{1, 2, 3},
-			want:   []int{1, 2, 4, 5},
+			want:   []int{4, 5, 1, 2},
 		},
 	}
 	for _, tt := range tests {
