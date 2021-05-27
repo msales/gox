@@ -1,6 +1,8 @@
 package slicex
 
-import "fmt"
+import (
+	"fmt"
+)
 
 // InterfaceToString converts interface input to string slice.
 // Returns error on failed type assertion.
