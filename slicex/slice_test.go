@@ -73,6 +73,7 @@ func TestContains_Panic(t *testing.T) {
 func BenchmarkContains_Simple(b *testing.B) {
 	haystack := []int32{1, 2, 3, 4, 5, 6}
 	b.ResetTimer()
+	b.ReportAllocs()
 
 	for i := 0; i < b.N; i++ {
 		Contains(haystack, func(i int) bool {
@@ -90,6 +91,7 @@ func BenchmarkContains_Struct(b *testing.B) {
 		{"6", 5},
 	}
 	b.ResetTimer()
+	b.ReportAllocs()
 
 	for i := 0; i < b.N; i++ {
 		Contains(haystack, func(i int) bool {
@@ -185,6 +187,7 @@ func TestFilter_Slice_Panic(t *testing.T) {
 func BenchmarkFilter_Simple(b *testing.B) {
 	haystack := []int32{1, 2, 3, 4, 5, 6}
 	b.ResetTimer()
+	b.ReportAllocs()
 
 	for i := 0; i < b.N; i++ {
 		Filter(&haystack, func(i int) bool {
@@ -202,6 +205,7 @@ func BenchmarkFilter_Struct(b *testing.B) {
 		{"6", 5},
 	}
 	b.ResetTimer()
+	b.ReportAllocs()
 
 	for i := 0; i < b.N; i++ {
 		Filter(&haystack, func(i int) bool {
