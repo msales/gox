@@ -111,6 +111,17 @@ func TestFilterInt_Filtered(t *testing.T) {
 	}
 }
 
+func TestFilterInt_AllFiltered(t *testing.T) {
+	slice := []int{2, 4, 6, 8}
+	want := []int{}
+	Filter(&slice, func(i int) bool {
+		return slice[i]%2 == 0
+	})
+	if !reflect.DeepEqual(want, slice) {
+		t.Errorf("Got %+v, want %+v", slice, want)
+	}
+}
+
 func TestFilterInt_NotFiltered(t *testing.T) {
 	slice := []int{1, 2, 3}
 	want := []int{1, 2, 3}

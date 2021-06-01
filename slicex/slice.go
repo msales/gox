@@ -25,7 +25,7 @@ func Filter(x interface{}, filter func(i int) bool) {
 	v := ptr.Elem()
 	validateReflection("Filter", reflect.Slice, v)
 
-	for i := 0; i < v.Len(); i++ {
+	for i := v.Len() - 1; i >= 0; i-- {
 		if filter(i) {
 			v.Set(reflect.AppendSlice(v.Slice(0, i), v.Slice(i+1, v.Len())))
 		}
