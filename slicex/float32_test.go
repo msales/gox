@@ -328,6 +328,54 @@ func TestContainsFloat32(t *testing.T) {
 	}
 }
 
+func TestContainsAtLeastOneFloat32(t *testing.T) {
+	tests := []struct {
+		name     string
+		slice    []float32
+		contains []float32
+		want     bool
+	}{
+		{
+			name:     "found 1 element",
+			slice:    []float32{1, 2, 3, 4, 5, 6},
+			contains: []float32{3},
+			want:     true,
+		},
+		{
+			name:     "found 3 elements",
+			slice:    []float32{1, 2, 3, 4, 5, 6},
+			contains: []float32{3, 5, 6},
+			want:     true,
+		},
+		{
+			name:     "found some but not all elements",
+			slice:    []float32{1, 2, 3, 4, 5, 6},
+			contains: []float32{3, 5, 6, 7},
+			want:     true,
+		},
+		{
+			name:     "found no elements",
+			slice:    []float32{1, 2, 3, 4, 5, 6},
+			contains: []float32{7, 9},
+			want:     false,
+		},
+		{
+			name:     "found no element",
+			slice:    []float32{1, 2, 3, 4, 5, 6},
+			contains: []float32{7},
+			want:     false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := ContainsAtLeastOneFloat32(tt.slice, tt.contains...)
+			if tt.want != got {
+				t.Errorf("Got %+v, want %+v", got, tt.want)
+			}
+		})
+	}
+}
+
 func BenchmarkContainsFloat32_Single(b *testing.B) {
 	haystack := []float32{1, 2, 3, 4, 5, 6}
 	b.ResetTimer()
@@ -343,5 +391,23 @@ func BenchmarkContainsFloat32_Multiple(b *testing.B) {
 
 	for i := 0; i < b.N; i++ {
 		ContainsFloat32(haystack, 2, 3)
+	}
+}
+
+func BenchmarkContainsAtLeastOneFloat32_Single(b *testing.B) {
+	haystack := []float32{1, 2, 3, 4, 5, 6}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		ContainsAtLeastOneFloat32(haystack, 3)
+	}
+}
+
+func BenchmarkContainsAtLeastOneFloat32_Multiple(b *testing.B) {
+	haystack := []float32{1, 2, 3, 4, 5, 6}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		ContainsAtLeastOneFloat32(haystack, 2, 3)
 	}
 }

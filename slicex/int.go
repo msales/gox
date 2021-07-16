@@ -95,6 +95,33 @@ func ContainsInt(haystack []int, needles ...int) bool {
 	return false
 }
 
+// ContainsAtLeastOneInt checks if at least one element from needles list is in the haystack.
+func ContainsAtLeastOneInt(haystack []int, needles ...int) bool {
+	// Avoid allocations for a single check.
+	if len(needles) == 1 {
+		for _, h := range haystack {
+			if h == needles[0] {
+				return true
+			}
+		}
+		return false
+	}
+
+	checks := make(map[int]struct{}, len(needles))
+	for _, n := range needles {
+		checks[n] = struct{}{}
+	}
+
+	for _, h := range haystack {
+		_, ok := checks[h]
+		if ok {
+			return true
+		}
+	}
+
+	return false
+}
+
 // IntSymDiff returns symmetric difference of 2 slices.
 // https://en.wikipedia.org/wiki/Symmetric_difference
 func IntSymDiff(slice1, slice2 []int) []int {
