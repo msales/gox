@@ -343,6 +343,72 @@ func BenchmarkContainsInt_Multiple(b *testing.B) {
 	}
 }
 
+func TestContainsAtLeastOneInt(t *testing.T) {
+	tests := []struct {
+		name     string
+		slice    []int
+		contains []int
+		want     bool
+	}{
+		{
+			name:     "found 1 element",
+			slice:    []int{1, 2, 3, 4, 5, 6},
+			contains: []int{3},
+			want:     true,
+		},
+		{
+			name:     "found 3 elements",
+			slice:    []int{1, 2, 3, 4, 5, 6},
+			contains: []int{3, 5, 6},
+			want:     true,
+		},
+		{
+			name:     "found some but not all elements",
+			slice:    []int{1, 2, 3, 4, 5, 6},
+			contains: []int{3, 5, 6, 7},
+			want:     true,
+		},
+		{
+			name:     "found no elements",
+			slice:    []int{1, 2, 3, 4, 5, 6},
+			contains: []int{7, 9},
+			want:     false,
+		},
+		{
+			name:     "found no element",
+			slice:    []int{1, 2, 3, 4, 5, 6},
+			contains: []int{7},
+			want:     false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := ContainsAtLeastOneInt(tt.slice, tt.contains...)
+			if tt.want != got {
+				t.Errorf("Got %+v, want %+v", got, tt.want)
+			}
+		})
+	}
+}
+
+func BenchmarkContainsAtLeastOneInt_Single(b *testing.B) {
+	haystack := []int{1, 2, 3, 4, 5, 6}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		ContainsAtLeastOneInt(haystack, 3)
+	}
+}
+
+func BenchmarkContainsAtLeastOneInt_Multiple(b *testing.B) {
+	haystack := []int{1, 2, 3, 4, 5, 6}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		ContainsAtLeastOneInt(haystack, 2, 3)
+	}
+}
+
 func TestIntSymDiff(t *testing.T) {
 	tests := []struct {
 		name   string

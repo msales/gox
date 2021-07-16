@@ -94,3 +94,30 @@ func ContainsInt32(haystack []int32, needles ...int32) bool {
 
 	return false
 }
+
+// ContainsAtLeastOneInt32 checks if at least one element from needles list is in the haystack.
+func ContainsAtLeastOneInt32(haystack []int32, needles ...int32) bool {
+	// Avoid allocations for a single check.
+	if len(needles) == 1 {
+		for _, h := range haystack {
+			if h == needles[0] {
+				return true
+			}
+		}
+		return false
+	}
+
+	checks := make(map[int32]struct{}, len(needles))
+	for _, n := range needles {
+		checks[n] = struct{}{}
+	}
+
+	for _, h := range haystack {
+		_, ok := checks[h]
+		if ok {
+			return true
+		}
+	}
+
+	return false
+}

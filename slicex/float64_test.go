@@ -345,3 +345,69 @@ func BenchmarkContainsFloat64_Multiple(b *testing.B) {
 		ContainsFloat64(haystack, 2, 3)
 	}
 }
+
+func TestContainsAtLeastOneFloat64(t *testing.T) {
+	tests := []struct {
+		name     string
+		slice    []float64
+		contains []float64
+		want     bool
+	}{
+		{
+			name:     "found 1 element",
+			slice:    []float64{1, 2, 3, 4, 5, 6},
+			contains: []float64{3},
+			want:     true,
+		},
+		{
+			name:     "found 3 elements",
+			slice:    []float64{1, 2, 3, 4, 5, 6},
+			contains: []float64{3, 5, 6},
+			want:     true,
+		},
+		{
+			name:     "found some but not all elements",
+			slice:    []float64{1, 2, 3, 4, 5, 6},
+			contains: []float64{3, 5, 6, 7},
+			want:     true,
+		},
+		{
+			name:     "found no elements",
+			slice:    []float64{1, 2, 3, 4, 5, 6},
+			contains: []float64{7, 9},
+			want:     false,
+		},
+		{
+			name:     "found no element",
+			slice:    []float64{1, 2, 3, 4, 5, 6},
+			contains: []float64{7},
+			want:     false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := ContainsAtLeastOneFloat64(tt.slice, tt.contains...)
+			if tt.want != got {
+				t.Errorf("Got %+v, want %+v", got, tt.want)
+			}
+		})
+	}
+}
+
+func BenchmarkContainsAtLeastOneFloat64_Single(b *testing.B) {
+	haystack := []float64{1, 2, 3, 4, 5, 6}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		ContainsAtLeastOneFloat64(haystack, 3)
+	}
+}
+
+func BenchmarkContainsAtLeastOneFloat64_Multiple(b *testing.B) {
+	haystack := []float64{1, 2, 3, 4, 5, 6}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		ContainsAtLeastOneFloat64(haystack, 2, 3)
+	}
+}

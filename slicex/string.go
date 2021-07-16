@@ -127,6 +127,33 @@ func ContainsString(haystack []string, needles ...string) bool {
 	return false
 }
 
+// ContainsAtLeastOneString checks if at least one element from needles list is in the haystack.
+func ContainsAtLeastOneString(haystack []string, needles ...string) bool {
+	// Avoid allocations for a single check.
+	if len(needles) == 1 {
+		for _, h := range haystack {
+			if h == needles[0] {
+				return true
+			}
+		}
+		return false
+	}
+
+	checks := make(map[string]struct{}, len(needles))
+	for _, n := range needles {
+		checks[n] = struct{}{}
+	}
+
+	for _, h := range haystack {
+		_, ok := checks[h]
+		if ok {
+			return true
+		}
+	}
+
+	return false
+}
+
 // MatchesString checks if all elements from needles list are in the haystack in a case insensitive manner.
 func MatchesString(haystack []string, needles ...string) bool {
 	// Avoid allocations for a single check.

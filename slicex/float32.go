@@ -92,3 +92,30 @@ func ContainsFloat32(haystack []float32, needles ...float32) bool {
 
 	return false
 }
+
+// ContainsAtLeastOneFloat32 checks if at least one element from needles list is in the haystack.
+func ContainsAtLeastOneFloat32(haystack []float32, needles ...float32) bool {
+	// Avoid allocations for a single check.
+	if len(needles) == 1 {
+		for _, h := range haystack {
+			if h == needles[0] {
+				return true
+			}
+		}
+		return false
+	}
+
+	checks := make(map[float32]struct{}, len(needles))
+	for _, n := range needles {
+		checks[n] = struct{}{}
+	}
+
+	for _, h := range haystack {
+		_, ok := checks[h]
+		if ok {
+			return true
+		}
+	}
+
+	return false
+}
