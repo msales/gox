@@ -399,6 +399,54 @@ func TestContainsString(t *testing.T) {
 	}
 }
 
+func TestContainsAtLeastOneString(t *testing.T) {
+	tests := []struct {
+		name     string
+		slice    []string
+		contains []string
+		want     bool
+	}{
+		{
+			name:     "found 1 element",
+			slice:    []string{"a", "b", "c", "d", "e", "f"},
+			contains: []string{"a"},
+			want:     true,
+		},
+		{
+			name:     "found 3 elements",
+			slice:    []string{"a", "b", "c", "d", "e", "f"},
+			contains: []string{"a", "b", "c"},
+			want:     true,
+		},
+		{
+			name:     "found some but not all elements",
+			slice:    []string{"a", "b", "c", "d", "e", "f"},
+			contains: []string{"a", "B", "C"},
+			want:     true,
+		},
+		{
+			name:     "found no elements",
+			slice:    []string{"a", "b", "c", "d", "e", "f"},
+			contains: []string{"A", "B"},
+			want:     false,
+		},
+		{
+			name:     "found no element",
+			slice:    []string{"a", "b", "c", "d", "e", "f"},
+			contains: []string{"A"},
+			want:     false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := ContainsAtLeastOneString(tt.slice, tt.contains...)
+			if tt.want != got {
+				t.Errorf("Got %+v, want %+v", got, tt.want)
+			}
+		})
+	}
+}
+
 func TestMatchesString(t *testing.T) {
 	tests := []struct {
 		name     string
@@ -474,6 +522,24 @@ func BenchmarkContainsString_Multiple(b *testing.B) {
 
 	for i := 0; i < b.N; i++ {
 		ContainsString(haystack, "b", "c")
+	}
+}
+
+func BenchmarkContainsAtLeastOneString_Single(b *testing.B) {
+	haystack := []string{"a", "b", "c", "d", "e", "f"}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		ContainsAtLeastOneString(haystack, "c")
+	}
+}
+
+func BenchmarkContainsAtLeastOneString_Multiple(b *testing.B) {
+	haystack := []string{"a", "b", "c", "d", "e", "f"}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		ContainsAtLeastOneString(haystack, "b", "c")
 	}
 }
 
