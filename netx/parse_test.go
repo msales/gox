@@ -23,6 +23,11 @@ func TestRawIPToUint(t *testing.T) {
 			raw:  "127.0.0.1",
 			want: uint32(0b01111111000000000000000000000001),
 		},
+		{
+			name: "correct IPv6 - not supported",
+			raw:  "2001:db8:3333:4444:5555:6666:7777:8888",
+			want: 0,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

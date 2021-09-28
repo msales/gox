@@ -13,6 +13,10 @@ func RawIPToUint(raw string) uint32 {
 	}
 
 	ip = ip.To4()
+	if ip == nil {
+		return 0
+	}
+
 	return binary.BigEndian.Uint32(ip)
 }
 
