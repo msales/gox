@@ -25,6 +25,12 @@ func TestContains(t *testing.T) {
 			contains: 7,
 			want:     false,
 		},
+		{
+			name:     "found no elements in empty slice",
+			slice:    []int64{},
+			contains: 7,
+			want:     false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -84,6 +90,24 @@ func TestContainsAll(t *testing.T) {
 			name:     "found no element",
 			slice:    []int64{1, 2, 3, 4, 5, 6},
 			contains: []int64{7},
+			want:     false,
+		},
+		{
+			name:     "found all in equal slices",
+			slice:    []int64{1, 2, 3},
+			contains: []int64{1, 2, 3},
+			want:     true,
+		},
+		{
+			name:     "found some with needles containing all slice elements plus some",
+			slice:    []int64{1, 2, 3},
+			contains: []int64{1, 2, 3, 4},
+			want:     false,
+		},
+		{
+			name:     "found no element in empty slicee",
+			slice:    []int64{},
+			contains: []int64{1, 2, 3, 4},
 			want:     false,
 		},
 	}
