@@ -4,7 +4,7 @@ package gofp
 //
 // Example:
 // intSlice := int {1, 2, 3, 4, 5}
-// resp := utils.Reduce(intSlice, func(accum, item int) int { return accum + item }, 0)
+// resp := gofp.Reduce(intSlice, func(accum, item int) int { return accum + item }, 0)
 // fmt.Println(resp) // ---> 15
 func Reduce[T, V any](list []T, fn func(V, T) V, initValue V) V {
 	acc := initValue
