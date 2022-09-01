@@ -1,16 +1,5 @@
 package gofp
 
-// Contains returns if exist at least one element that satisfy the predicate.
-func Contains[T any](list []T, predicate func(T) bool) (res bool) {
-	for i := range list {
-		if predicate(list[i]) {
-			return true
-		}
-	}
-
-	return false
-}
-
 // ContainsAll checks if all elements from needles list are in the haystack.
 func ContainsAll[T comparable](haystack []T, needles ...T) bool {
 	// Avoid allocations for a single check.
