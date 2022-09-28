@@ -12,7 +12,7 @@ func (x *IP) ToIP() net.IP {
 }
 
 func (x *IP) Uint32() uint32 {
-	return binary.BigEndian.Uint32(x.to4())
+	return binary.BigEndian.Uint32(x.To4())
 }
 
 func (x *IP) String() string {
@@ -33,7 +33,7 @@ func (x *IP) Type() string {
 	return "IP"
 }
 
-func (x *IP) to4() net.IP {
+func (x *IP) To4() net.IP {
 	ip4 := net.IP(*x).To4()
 	if len(ip4) != net.IPv4len {
 		ip4 = net.ParseIP("0.0.0.0")
