@@ -59,7 +59,7 @@ func TestIntersection(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result := gofp.Intersection(tt.slices...)
+			result := gofp.Intersection(tt.slices[0], tt.slices[1], tt.slices[2:]...)
 
 			if len(tt.want) != len(result) {
 				t.Errorf("Got %+v, want %+v", result, tt.want)

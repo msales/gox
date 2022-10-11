@@ -36,8 +36,11 @@ func TestUnion(t *testing.T) {
 				{3, 5, 7, 9},
 				{3, 5, 4, 10, 7},
 				{2, 5, 4, 10, 11},
+				{1, 7, 9},
+				{8, 9, 1, 12},
+				{1, 2, 3, 4, 4, 4, 4},
 			},
-			want: []int{1, 2, 3, 4, 5, 6, 7, 9, 10, 11},
+			want: []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12},
 		},
 		{
 			name: "No common elements",
@@ -59,7 +62,7 @@ func TestUnion(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result := gofp.Union(tt.slices...)
+			result := gofp.Union(tt.slices[0], tt.slices[1], tt.slices[2:]...)
 
 			sort.Ints(tt.want)
 			sort.Ints(result)

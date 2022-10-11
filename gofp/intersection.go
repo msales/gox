@@ -1,6 +1,12 @@
 package gofp
 
-func Intersection[T comparable](lists ...[]T) []T {
+// Intersection finds the elements that appear in both arrays and returns them (without duplicates)
+func Intersection[T comparable](first, second []T, rest ...[]T) []T {
+	lists := make([][]T, 0)
+	lists = append(lists, first)
+	lists = append(lists, second)
+	lists = append(lists, rest...)
+
 	occurrences := make(map[T]int, 0)
 	result := make([]T, 0)
 
@@ -10,7 +16,7 @@ func Intersection[T comparable](lists ...[]T) []T {
 				result = append(result, element)
 			}
 
-			occurrences[element] += 1
+			occurrences[element]++
 		}
 	}
 
