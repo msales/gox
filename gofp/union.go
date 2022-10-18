@@ -1,23 +1,25 @@
 package gofp
 
-// Union merges both arrays removing the duplicates
-func Union[T comparable](first, second []T, other ...[]T) []T {
-	lists := make([][]T, 0)
-	lists = append(lists, first)
-	lists = append(lists, second)
-	lists = append(lists, other...)
+// Union merges arrays removing the duplicates
+func Union[T any](first []T, second []T, predicate func(T, T) bool) []T {
+	lists := make([]T, 0)
+	cleanList := make([]T, 0)
 
-	occurred := make(map[T]struct{}, 0)
-	result := make([]T, 0)
+	lists = append(lists, first...)
+	lists = append(lists, second...)
 
-	for _, list := range lists {
-		for _, element := range list {
-			if _, ok := occurred[element]; !ok {
-				occurred[element] = struct{}{}
-				result = append(result, element)
+	for _, v := range lists {
+		skip := false
+		for _, u := range cleanList {
+			if predicate(v, u) {
+				skip = true
+				break
 			}
+		}
+		if !skip {
+			cleanList = append(cleanList, v)
 		}
 	}
 
-	return result
+	return cleanList
 }

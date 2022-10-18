@@ -1,105 +1,145 @@
 package gofp_test
 
 import (
-	"sort"
 	"testing"
 
 	"github.com/msales/gox/gofp"
 )
 
-func TestIntersection(t *testing.T) {
-	tests := []struct {
-		name   string
-		slices [][]int
-		want   []int
-	}{
+func TestIntersection_Comparable_Int_TwoArrays(t *testing.T) {
+	slices := [][]int{
+		{1, 3, 5},
+		{2, 5, 7},
+	}
+
+	predicate := func(elementOne, elementTwo int) bool {
+		return elementOne == elementTwo
+	}
+
+	got := gofp.Intersection(slices[0], slices[1], predicate)
+
+	want := []int{5}
+
+	if len(want) != len(got) {
+		t.Errorf("Got %+v, want %+v", got, want)
+		return
+	}
+
+	for k, v := range want {
+		if v != got[k] {
+			t.Errorf("Got %+v, want %+v", got, want)
+		}
+	}
+}
+
+func TestIntersection_Comparable_String_TwoArrays(t *testing.T) {
+	slices := [][]string{
+		{"a", "b", "c"},
+		{"c", "d", "e"},
+	}
+
+	predicate := func(elementOne, elementTwo string) bool {
+		return elementOne == elementTwo
+	}
+
+	got := gofp.Intersection(slices[0], slices[1], predicate)
+
+	want := []string{"c"}
+
+	if len(want) != len(got) {
+		t.Errorf("Got %+v, want %+v", got, want)
+		return
+	}
+
+	for k, v := range want {
+		if v != got[k] {
+			t.Errorf("Got %+v, want %+v", got, want)
+		}
+	}
+}
+
+func TestIntersection_SomeType_TwoArrays(t *testing.T) {
+	type person struct {
+		name    string
+		age     int
+		country string
+	}
+
+	slices := [][]person{
 		{
-			name: "One common element",
-			slices: [][]int{
-				{1, 3, 5},
-				{2, 5, 7},
+			{
+				name:    "aaa",
+				age:     33,
+				country: "PL",
 			},
-			want: []int{5},
+			{
+				name:    "bbb",
+				age:     32,
+				country: "PL",
+			},
+			{
+				name:    "cc",
+				age:     31,
+				country: "DE",
+			},
 		},
 		{
-			name: "Multiple common elements",
-			slices: [][]int{
-				{1, 3, 5, 7},
-				{3, 5, 7, 9},
+			{
+				name:    "ggg",
+				age:     45,
+				country: "GB",
 			},
-			want: []int{3, 5, 7},
-		},
-		{
-			name: "More than two arrays",
-			slices: [][]int{
-				{1, 3, 5, 6},
-				{3, 5, 7, 9},
-				{3, 5, 4, 10, 7},
-				{2, 5, 4, 10, 11},
+			{
+				name:    "ff",
+				age:     31,
+				country: "FIN",
 			},
-			want: []int{3, 5, 4, 7, 10},
-		},
-		{
-			name: "No common elements",
-			slices: [][]int{
-				{1, 2, 3, 4},
-				{5, 6, 7, 8},
+			{
+				name:    "cc",
+				age:     31,
+				country: "DE",
 			},
-			want: []int{},
-		},
-		{
-			name: "All elements in common",
-			slices: [][]int{
-				{1, 2, 3, 4},
-				{1, 2, 3, 4},
-			},
-			want: []int{1, 2, 3, 4},
 		},
 	}
 
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			result := gofp.Intersection(tt.slices[0], tt.slices[1], tt.slices[2:]...)
+	predicate := func(elementOne, elementTwo person) bool {
+		return elementOne.age == elementTwo.age && elementOne.country == elementTwo.country
+	}
 
-			if len(tt.want) != len(result) {
-				t.Errorf("Got %+v, want %+v", result, tt.want)
-				return
-			}
+	got := gofp.Intersection(slices[0], slices[1], predicate)
 
-			sort.Ints(tt.want)
-			sort.Ints(result)
+	want := []person{
+		{
+			name:    "cc",
+			age:     31,
+			country: "DE",
+		},
+	}
 
-			for idx, value := range tt.want {
-				if value != result[idx] {
-					t.Errorf("Got %+v, want %+v", result, tt.want)
-					break
-				}
-			}
-		})
+	if len(want) != len(got) {
+		t.Errorf("Got %+v, want %+v", got, want)
+		return
+	}
+
+	for k, v := range want {
+		if v != got[k] {
+			t.Errorf("Got %+v, want %+v", got, want)
+		}
 	}
 }
 
 func BenchmarkIntersection_TwoSlices(b *testing.B) {
 	slice1 := []int{1, 2, 3, 4, 5}
 	slice2 := []int{5, 6, 7, 8, 9}
-	b.ResetTimer()
-
-	for i := 0; i < b.N; i++ {
-		gofp.Intersection(slice1, slice2)
+	predicate := func(elementOne, elementTwo int) bool {
+		return elementOne == elementTwo
 	}
-}
-
-func BenchmarkIntersection_ManySlices(b *testing.B) {
-	slice1 := []int{1, 2, 3, 4, 5}
-	slice2 := []int{5, 6, 7, 8, 9}
-	slice3 := []int{9, 10, 11, 12, 13}
-	slice4 := []int{13, 14, 15, 16, 17}
-	slice5 := []int{18, 19, 20, 21, 22}
-	slice6 := []int{23, 24, 25, 26, 27}
 
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
-		gofp.Intersection(slice1, slice2, slice3, slice4, slice5, slice6)
+		gofp.Intersection(slice1, slice2, predicate)
 	}
+
+	b.ReportAllocs()
 }
