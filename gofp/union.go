@@ -1,12 +1,11 @@
 package gofp
 
-// Union merges arrays removing the duplicates
+// Union merges arrays removing the duplicates.
 func Union[T any](first []T, second []T, predicate func(T, T) bool) []T {
-	lists := make([]T, 0)
+	lists := make([]T, len(first)+len(second))
+	copy(lists, first)
+	copy(lists[len(first):], second)
 	cleanList := make([]T, 0)
-
-	lists = append(lists, first...)
-	lists = append(lists, second...)
 
 	for _, v := range lists {
 		skip := false
