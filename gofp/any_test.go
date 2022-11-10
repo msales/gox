@@ -77,8 +77,9 @@ func BenchmarkAny_Struct(b *testing.B) {
 		{"4", 4},
 		{"6", 5},
 	}
-	b.ResetTimer()
+
 	b.ReportAllocs()
+	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
 		Any(haystack, func(ts testStruct) bool {

@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/msales/gox/gofp"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/msales/gox/gofp"
 )
 
 func TestIntersection_Int(t *testing.T) {
@@ -83,11 +84,10 @@ func BenchmarkIntersection_TwoSlices(b *testing.B) {
 		return elementOne == elementTwo
 	}
 
+	b.ReportAllocs()
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
 		gofp.Intersection(slice1, slice2, predicate)
 	}
-
-	b.ReportAllocs()
 }

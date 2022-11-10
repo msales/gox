@@ -38,6 +38,8 @@ func TestReduce(t *testing.T) {
 
 func BenchmarkReduce(b *testing.B) {
 	original := []int64{1, 2, 3, 4, 5, 6}
+
+	b.ReportAllocs()
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {

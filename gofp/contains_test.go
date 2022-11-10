@@ -74,6 +74,8 @@ func TestContainsAll(t *testing.T) {
 
 func BenchmarkContainsAll_Single(b *testing.B) {
 	haystack := []int64{1, 2, 3, 4, 5, 6}
+
+	b.ReportAllocs()
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
@@ -83,6 +85,8 @@ func BenchmarkContainsAll_Single(b *testing.B) {
 
 func BenchmarkContainsAll_Multiple(b *testing.B) {
 	haystack := []int64{1, 2, 3, 4, 5, 6}
+
+	b.ReportAllocs()
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
@@ -140,6 +144,8 @@ func TestContainsAtLeastOne(t *testing.T) {
 
 func BenchmarkContainsAtLeastOne_Single(b *testing.B) {
 	haystack := []int64{1, 2, 3, 4, 5, 6}
+
+	b.ReportAllocs()
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
@@ -149,6 +155,8 @@ func BenchmarkContainsAtLeastOne_Single(b *testing.B) {
 
 func BenchmarkContainsAtLeastOne_Multiple(b *testing.B) {
 	haystack := []int64{1, 2, 3, 4, 5, 6}
+
+	b.ReportAllocs()
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
