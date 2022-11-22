@@ -101,11 +101,21 @@ func TestRemove(t *testing.T) {
 
 func TestToSlice(t *testing.T) {
 	intSet := gofp.Set[int]{1: struct{}{}, 2: struct{}{}, 3: struct{}{}, 4: struct{}{}}
-	// remove existing element
 	intSlice := intSet.ToSlice()
 	assert.Len(t, intSlice, len(intSet)) // verify that both length are the same.
 
 	for _, v := range intSlice {
 		assert.True(t, intSet.Has(v))
+	}
+}
+
+func TestToSliceWithSort(t *testing.T) {
+	intSet := gofp.Set[int]{1: struct{}{}, 2: struct{}{}, 3: struct{}{}, 4: struct{}{}}
+	expectedSlice := []int{1, 2, 3, 4}
+	intSlice := intSet.ToSliceWithSort(func(a, b int) bool { return a < b })
+	assert.Len(t, intSlice, len(intSet)) // verify that both length are the same.
+
+	for i := 0; i < len(expectedSlice); i++ {
+		assert.Equal(t, expectedSlice[i], intSlice[i])
 	}
 }
