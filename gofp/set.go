@@ -1,8 +1,11 @@
 package gofp
 
-import "fmt"
+import (
+	"fmt"
+	"sort"
+)
 
-// Set[T] represents a list of unique 'T' elements.
+// Set[T] represents a unordered list of unique 'T' elements.
 // NOTE: only works with comparable types because the underlying implementation
 // uses maps and map keys can only be 'comparables'.
 // Should be builded using make. Example:
@@ -43,5 +46,20 @@ func (s Set[T]) ToSlice() []T {
 	for k := range s {
 		keys = append(keys, k)
 	}
+	return keys
+}
+
+// ToSlice convert the set in a slice applying the sort function.
+func (s Set[T]) ToSliceWithSort(sortFunc func(a, b T) bool) []T {
+	keys := make([]T, 0, len(s))
+
+	for k := range s {
+		keys = append(keys, k)
+	}
+
+	sort.Slice(keys, func(i, j int) bool {
+		return sortFunc(keys[i], keys[j])
+	})
+
 	return keys
 }
