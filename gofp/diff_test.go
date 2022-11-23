@@ -74,6 +74,8 @@ func TestSymDiff(t *testing.T) {
 func BenchmarkSymDiff_Both(b *testing.B) {
 	slice1 := []int{1, 2, 3, 4, 5, 6}
 	slice2 := []int{5, 6, 7, 8, 9, 10}
+
+	b.ReportAllocs()
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
@@ -84,6 +86,8 @@ func BenchmarkSymDiff_Both(b *testing.B) {
 func BenchmarkSymDiff_Both_Pessimistic(b *testing.B) {
 	slice1 := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	slice2 := []int{10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20}
+
+	b.ReportAllocs()
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
@@ -102,6 +106,8 @@ func BenchmarkSymDiff_Both_MoreValues_Random(b *testing.B) {
 	}
 	rand.Shuffle(len(slice1), func(i, j int) { slice1[i], slice1[j] = slice1[j], slice1[i] })
 	rand.Shuffle(len(slice2), func(i, j int) { slice2[i], slice2[j] = slice2[j], slice2[i] })
+
+	b.ReportAllocs()
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
@@ -112,6 +118,8 @@ func BenchmarkSymDiff_Both_MoreValues_Random(b *testing.B) {
 func BenchmarkSymDiff_Both_Pessimistic_RightShorter(b *testing.B) {
 	slice1 := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}
 	slice2 := []int{17, 18, 19, 20}
+
+	b.ReportAllocs()
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
@@ -188,6 +196,8 @@ func TestDiffLeft(t *testing.T) {
 func BenchmarkDiffLeft(b *testing.B) {
 	slice1 := []int{1, 2, 3, 4, 5, 6}
 	slice2 := []int{5, 6, 7, 8}
+
+	b.ReportAllocs()
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
@@ -206,6 +216,8 @@ func BenchmarkDiffLeft_MoreValues_Random(b *testing.B) {
 	}
 	rand.Shuffle(len(slice1), func(i, j int) { slice1[i], slice1[j] = slice1[j], slice1[i] })
 	rand.Shuffle(len(slice2), func(i, j int) { slice2[i], slice2[j] = slice2[j], slice2[i] })
+
+	b.ReportAllocs()
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
@@ -282,6 +294,8 @@ func TestDiffRight(t *testing.T) {
 func BenchmarkDiffRight(b *testing.B) {
 	slice1 := []int{1, 2, 3, 4, 5, 6}
 	slice2 := []int{5, 6, 7, 8}
+
+	b.ReportAllocs()
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
@@ -300,6 +314,8 @@ func BenchmarkDiffRight_MoreValues_Random(b *testing.B) {
 	}
 	rand.Shuffle(len(slice1), func(i, j int) { slice1[i], slice1[j] = slice1[j], slice1[i] })
 	rand.Shuffle(len(slice2), func(i, j int) { slice2[i], slice2[j] = slice2[j], slice2[i] })
+
+	b.ReportAllocs()
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {

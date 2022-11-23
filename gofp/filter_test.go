@@ -27,6 +27,8 @@ func TestFilter_Int64(t *testing.T) {
 
 func BenchmarkFilter_Int64(b *testing.B) {
 	original := []int64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+
+	b.ReportAllocs()
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {

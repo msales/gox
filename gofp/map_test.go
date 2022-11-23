@@ -52,6 +52,7 @@ func TestMap_StringToStruct(t *testing.T) {
 
 func BenchmarkMap_Int64ToIn32(b *testing.B) {
 	original := []int64{1, 2, 3, 4, 5, 6}
+	b.ReportAllocs()
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
@@ -63,6 +64,7 @@ func BenchmarkMap_Int64ToIn32(b *testing.B) {
 
 func BenchmarkMap_StringToStruct(b *testing.B) {
 	original := []string{"1", "2", "3"}
+	b.ReportAllocs()
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
@@ -127,6 +129,7 @@ func TestMapMultiple_StringToStruct(t *testing.T) {
 
 func BenchmarkMapMultiple_Int64ToIn32(b *testing.B) {
 	original := []int64{1, 2, 3, 4, 5, 6}
+	b.ReportAllocs()
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
@@ -141,6 +144,7 @@ func BenchmarkMapMultiple_Int64ToIn32(b *testing.B) {
 
 func BenchmarkMapMultiple_StringToStruct(b *testing.B) {
 	original := []string{"1", "2", "3"}
+	b.ReportAllocs()
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
