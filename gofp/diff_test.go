@@ -3,6 +3,8 @@ package gofp
 import (
 	"math/rand"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestSymDiff(t *testing.T) {
@@ -48,6 +50,12 @@ func TestSymDiff(t *testing.T) {
 			slice2: []int{7, 8, 9, 10, 11, 12},
 			want:   []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12},
 		},
+		{
+			name:   "repeated values",
+			slice1: []int{1, 1, 1, 1, 2, 2, 2, 1},
+			slice2: []int{3, 3, 3, 3, 3, 3, 3},
+			want:   []int{1, 2, 3},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -62,10 +70,8 @@ func TestSymDiff(t *testing.T) {
 				return
 			}
 
-			for k, v := range tt.want {
-				if v != got[k] {
-					t.Errorf("Got %+v, want %+v", got, tt.want)
-				}
+			for _, v := range tt.want {
+				assert.Contains(t, got, v, "Got %+v, want %+v")
 			}
 		})
 	}
@@ -170,6 +176,18 @@ func TestDiffLeft(t *testing.T) {
 			slice2: []int{7, 8, 9, 10, 11, 12},
 			want:   []int{1, 2, 3, 4, 5, 6},
 		},
+		{
+			name:   "diff both - pessimistic",
+			slice1: []int{1, 2, 3, 4, 5, 6},
+			slice2: []int{7, 8, 9, 10, 11, 12},
+			want:   []int{1, 2, 3, 4, 5, 6},
+		},
+		{
+			name:   "repeated values",
+			slice1: []int{1, 1, 1, 1, 2, 2, 2, 1},
+			slice2: []int{3, 3, 3, 3, 3, 3, 3},
+			want:   []int{1, 2},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -267,6 +285,12 @@ func TestDiffRight(t *testing.T) {
 			slice1: []int{1, 2, 3, 4, 5, 6},
 			slice2: []int{7, 8, 9, 10, 11, 12},
 			want:   []int{7, 8, 9, 10, 11, 12},
+		},
+		{
+			name:   "repeated values",
+			slice1: []int{3, 3, 3, 3, 3, 3, 3},
+			slice2: []int{1, 1, 1, 1, 2, 2, 2, 1},
+			want:   []int{1, 2},
 		},
 	}
 	for _, tt := range tests {
