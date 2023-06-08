@@ -4,23 +4,30 @@ package gofp
 // The function returns a new slice containing the elements that are in slice1 or slice2 but not in both.
 // https://en.wikipedia.org/wiki/Symmetric_difference
 func SymDiff[T comparable](slice1, slice2 []T) []T {
-	checks := make(map[T]int8, len(slice1)+len(slice2))
-	idx := make([]T, 0, len(slice1)+len(slice2))
+	checks1 := make(map[T]bool)
+	checks2 := make(map[T]bool)
+
+	// Track unique elements in slice1 and slice2
 	for _, v := range slice1 {
-		checks[v]++
-		idx = append(idx, v)
+		checks1[v] = true
 	}
 	for _, v := range slice2 {
-		checks[v]++
-		if checks[v] == 1 {
-			idx = append(idx, v)
+		checks2[v] = true
+	}
+
+	outer := make([]T, 0)
+
+	// Add elements in slice1 but not in slice2
+	for v := range checks1 {
+		if !checks2[v] {
+			outer = append(outer, v)
 		}
 	}
 
-	outer := make([]T, 0, len(slice1)+len(slice2))
-	for _, id := range idx {
-		if checks[id] == 1 {
-			outer = append(outer, id)
+	// Add elements in slice2 but not in slice1
+	for v := range checks2 {
+		if !checks1[v] {
+			outer = append(outer, v)
 		}
 	}
 
@@ -30,18 +37,17 @@ func SymDiff[T comparable](slice1, slice2 []T) []T {
 // DiffLeft returns left diff of 2 slices.
 // The function returns a new slice containing the elements that are in slice1 but not in slice2.
 func DiffLeft[T comparable](slice1, slice2 []T) []T {
-	checks := make(map[T]int8, len(slice1))
-	for _, v := range slice1 {
-		checks[v]++
-	}
+	checks := make(map[T]bool)
 	for _, v := range slice2 {
-		checks[v]++
+		checks[v] = true
 	}
 
-	outer := make([]T, 0, len(slice1))
-	for _, id := range slice1 {
-		if checks[id] == 1 {
-			outer = append(outer, id)
+	var outer []T
+	used := make(map[T]bool)
+	for _, v := range slice1 {
+		if !checks[v] && !used[v] {
+			used[v] = true
+			outer = append(outer, v)
 		}
 	}
 
