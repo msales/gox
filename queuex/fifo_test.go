@@ -61,9 +61,17 @@ func TestFIFO_EmptyQueue(t *testing.T) {
 	queue := queuex.NewFIFO[int]()
 
 	got, ok := queue.Pop()
-	got, ok = queue.Pop()
 	wantVal := 0
 	wantOK := false
+	if wantVal != got {
+		t.Errorf("Got %+v, want %+v", got, wantVal)
+	}
+
+	if ok != wantOK {
+		t.Errorf("Got %+v, want %+v", ok, wantOK)
+	}
+
+	got, ok = queue.Pop()
 	if wantVal != got {
 		t.Errorf("Got %+v, want %+v", got, wantVal)
 	}
