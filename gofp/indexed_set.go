@@ -47,3 +47,8 @@ func (i *IndexedSet[Key, Value]) Has(k Key) bool {
 func (i *IndexedSet[Key, Value]) Keys() []Key {
 	return i.i
 }
+
+// Map returns the map.
+func (i *IndexedSet[Key, Value]) Map() map[Key]Value {
+	return i.m
+}
