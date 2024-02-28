@@ -19,18 +19,6 @@ func (i *IndexedSet[Key, Value]) Add(k Key, v Value) {
 	i.m[k] = v
 }
 
-// ToSlice returns a list of values in the order they were added in.
-func (i *IndexedSet[Key, Value]) ToSlice() []Value {
-	ret := make([]Value, 0, len(i.Keys()))
-	for _, key := range i.Keys() {
-		if val, ok := i.Get(key); ok {
-			ret = append(ret, val)
-		}
-	}
-
-	return ret
-}
-
 // Get returns a the value assigned to the provided key.
 func (i *IndexedSet[Key, Value]) Get(k Key) (Value, bool) {
 	v, ok := i.m[k]

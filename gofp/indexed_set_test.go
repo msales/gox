@@ -70,13 +70,3 @@ func Test_IndexedSet_Add(t *testing.T) {
 	assert.True(t, ok)
 	assert.Equal(t, 3, val)
 }
-
-func Test_IndexedSet_ToSlice(t *testing.T) {
-	var intSet gofp.IndexedSet[string, int]
-	intSet.Add("foo", 1)
-	intSet.Add("bar", 2)
-	intSet.Add("baz", 3)
-
-	intSlice := intSet.ToSlice()
-	assert.Equal(t, []int{1, 2, 3}, intSlice)
-}
