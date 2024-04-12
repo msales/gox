@@ -1,7 +1,7 @@
 package gofp
 
 // IndexedSet works like a map but it keeps the order.
-type IndexedSet[Key, Value comparable] struct {
+type IndexedSet[Key comparable, Value any] struct {
 	m map[Key]Value
 	i []Key
 }
