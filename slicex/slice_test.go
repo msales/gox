@@ -58,6 +58,135 @@ func TestContains(t *testing.T) {
 	}
 }
 
+type containsAtLeastOneTestCase[T comparable] struct {
+	name     string
+	slice    []T
+	contains []T
+	want     bool
+}
+
+func TestContainsAtLeastOne_GenericFloat64(t *testing.T) {
+	tests := []containsAtLeastOneTestCase[float64]{
+		{
+			name:     "found 1 element",
+			slice:    []float64{1, 2, 3, 4, 5, 6},
+			contains: []float64{3},
+			want:     true,
+		},
+		{
+			name:     "found 3 elements",
+			slice:    []float64{1, 2, 3, 4, 5, 6},
+			contains: []float64{3, 5, 6},
+			want:     true,
+		},
+		{
+			name:     "found some but not all elements",
+			slice:    []float64{1, 2, 3, 4, 5, 6},
+			contains: []float64{3, 5, 6, 7},
+			want:     true,
+		},
+		{
+			name:     "found no elements",
+			slice:    []float64{1, 2, 3, 4, 5, 6},
+			contains: []float64{7, 9},
+			want:     false,
+		},
+		{
+			name:     "found no element",
+			slice:    []float64{1, 2, 3, 4, 5, 6},
+			contains: []float64{7},
+			want:     false,
+		},
+	}
+
+	testContainsAtLeastOne[float64](t, tests)
+}
+
+func TestContainsAtLeastOne_GenericInt64(t *testing.T) {
+	tests := []containsAtLeastOneTestCase[int64]{
+		{
+			name:     "found 1 element",
+			slice:    []int64{1, 2, 3, 4, 5, 6},
+			contains: []int64{3},
+			want:     true,
+		},
+		{
+			name:     "found 3 elements",
+			slice:    []int64{1, 2, 3, 4, 5, 6},
+			contains: []int64{3, 5, 6},
+			want:     true,
+		},
+		{
+			name:     "found some but not all elements",
+			slice:    []int64{1, 2, 3, 4, 5, 6},
+			contains: []int64{3, 5, 6, 7},
+			want:     true,
+		},
+		{
+			name:     "found no elements",
+			slice:    []int64{1, 2, 3, 4, 5, 6},
+			contains: []int64{7, 9},
+			want:     false,
+		},
+		{
+			name:     "found no element",
+			slice:    []int64{1, 2, 3, 4, 5, 6},
+			contains: []int64{7},
+			want:     false,
+		},
+	}
+
+	testContainsAtLeastOne[int64](t, tests)
+}
+
+func TestContainsAtLeastOne_GenericString(t *testing.T) {
+	tests := []containsAtLeastOneTestCase[string]{
+		{
+			name:     "found 1 element",
+			slice:    []string{"1", "2", "3", "4", "5", "6"},
+			contains: []string{"3"},
+			want:     true,
+		},
+		{
+			name:     "found 3 elements",
+			slice:    []string{"1", "2", "3", "4", "5", "6"},
+			contains: []string{"3", "5", "6"},
+			want:     true,
+		},
+		{
+			name:     "found some but not all elements",
+			slice:    []string{"1", "2", "3", "4", "5", "6"},
+			contains: []string{"3", "5", "6", "7"},
+			want:     true,
+		},
+		{
+			name:     "found no elements",
+			slice:    []string{"1", "2", "3", "4", "5", "6"},
+			contains: []string{"7", "9"},
+			want:     false,
+		},
+		{
+			name:     "found no element",
+			slice:    []string{"1", "2", "3", "4", "5", "6"},
+			contains: []string{"7"},
+			want:     false,
+		},
+	}
+
+	testContainsAtLeastOne[string](t, tests)
+}
+
+func testContainsAtLeastOne[T comparable](t *testing.T, tests []containsAtLeastOneTestCase[T]) {
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := ContainsAtLeastOne(tt.slice, tt.contains...)
+			if tt.want != got {
+				t.Errorf("Got %+v, want %+v", got, tt.want)
+			}
+		})
+	}
+}
+
 func TestContains_Panic(t *testing.T) {
 	defer func() {
 		if r := recover(); r == nil {
