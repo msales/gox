@@ -1,35 +1,58 @@
 package gdpr_test
 
 import (
+	"strconv"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
-
-	"github.com/msales/gox/gdpr"
+	. "github.com/msales/gox/gdpr"
 )
 
-func Test_protector_ProtectDeviceID(t *testing.T) {
+func Test_ProtectDeviceID(t *testing.T) {
 	tests := []struct {
-		name               string
-		value              string
-		wantProtectedValue string
+		name  string
+		value string
+		want  string
 	}{
 		{
-			name:               "Empty value",
-			value:              "",
-			wantProtectedValue: "",
+			name:  "empty value",
+			value: "",
+			want:  "",
 		},
 		{
-			name:               "Value to protect",
-			value:              "some_value",
-			wantProtectedValue: "some_val**",
+			name:  "correct value to protect",
+			value: "some_value",
+			want:  "some_val**",
+		},
+		{
+			name:  "only numbers",
+			value: "12345",
+			want:  "123**",
+		},
+		{
+			name:  "string with 2 chars",
+			value: "11",
+			want:  "**",
+		},
+		{
+			name:  "string with less than 2 chars",
+			value: "1",
+			want:  "1",
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			protectedValue := gdpr.ProtectDeviceID(tt.value)
-
-			assert.Equal(t, tt.wantProtectedValue, protectedValue)
+			if got := ProtectDeviceID(tt.value); got != tt.want {
+				t.Errorf("Got %+v, want %+v", got, tt.want)
+			}
 		})
+	}
+}
+
+func BenchmarkProtectDeviceID(b *testing.B) {
+	b.ResetTimer()
+	b.ReportAllocs()
+
+	for i := 0; i < b.N; i++ {
+		ProtectDeviceID(strconv.Itoa(i))
 	}
 }

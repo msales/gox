@@ -1,25 +1,25 @@
 package gdpr
 
-import "strings"
-
 const (
-	ipSeparator         = "."
-	gdprStringHideValue = "*"
-	gdprIPHideValue     = "0"
-	unknownIPValue      = "unknown"
-	emptyIP             = "0"
+	hiddenRune = '*'
 )
 
 // ProtectDeviceID hides last two character from passed device id and returns string with protected value
-func ProtectDeviceID(deviceIDValue string) string {
-	if deviceIDValue == "" {
-		return deviceIDValue
+func ProtectDeviceID(val string) string {
+	if val == "" {
+		return val
 	}
 
-	splitted := strings.Split(deviceIDValue, "")
-	l := len(splitted)
-	splitted[l-1] = gdprStringHideValue
-	splitted[l-2] = gdprStringHideValue
+	r := []rune(val)
+	l := len(r)
 
-	return strings.Join(splitted, "")
+	// If someone passes string with less than 2 characters, we don't protect it.
+	if l < 2 {
+		return val
+	}
+
+	r[l-1] = hiddenRune
+	r[l-2] = hiddenRune
+
+	return string(r)
 }
