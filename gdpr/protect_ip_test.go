@@ -83,6 +83,11 @@ func Test_ProtectIP_String(t *testing.T) {
 			want: "",
 		},
 		{
+			name: "real string (that is not ip)",
+			ip:   "random_string",
+			want: "",
+		},
+		{
 			name: "zero ip",
 			ip:   "0.0.0.0",
 			want: "0.0.0.0",
