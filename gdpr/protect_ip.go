@@ -3,7 +3,6 @@ package gdpr
 import (
 	"encoding/binary"
 	"net"
-	"net/netip"
 
 	"github.com/msales/gox/netx"
 )
@@ -23,26 +22,14 @@ func ProtectIP[T IP](ip T) string {
 			return ""
 		}
 
-		// if IP is v6, we don't do anything with it.
+		// if IP is v6, change last 2 octets of ip.
 		if cIP.To4() == nil {
-
-			// if IPv6 is local we don't do anything
-			if cIP.String() == "::1" {
-				return cIP.String()
-			}
-
 			cIP[12] = 0
 			cIP[13] = 0
 			cIP[14] = 0
 			cIP[15] = 0
 
-			addr, err := netip.ParseAddr(cIP.String())
-			// if there is an error, we don't do anything, we return empty value because something is wrong with passed ip
-			if err != nil {
-				return ""
-			}
-
-			return addr.StringExpanded()
+			return cIP.String()
 		}
 
 		// change last octet of IP v4 to 0 and guard
