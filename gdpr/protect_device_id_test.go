@@ -36,7 +36,7 @@ func Test_ProtectDeviceID(t *testing.T) {
 		{
 			name:  "string with less than 2 chars",
 			value: "1",
-			want:  "1",
+			want:  "*",
 		},
 	}
 	for _, tt := range tests {

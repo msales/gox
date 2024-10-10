@@ -14,12 +14,14 @@ func ProtectDeviceID(val string) string {
 	l := len(r)
 
 	// If someone passes string with less than 2 characters, we don't protect it.
+	c := 2
 	if l < 2 {
-		return val
+		c = l
 	}
 
-	r[l-1] = hiddenRune
-	r[l-2] = hiddenRune
+	for i := 1; i <= c; i++ {
+		r[l-i] = hiddenRune
+	}
 
 	return string(r)
 }
