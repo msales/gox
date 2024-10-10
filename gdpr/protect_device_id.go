@@ -13,7 +13,7 @@ func ProtectDeviceID(val string) string {
 	r := []rune(val)
 	l := len(r)
 
-	// If someone passes string with less than 2 characters, we don't protect it.
+	// If someone passes string with less than 2 characters, protect everything.
 	c := 2
 	if l < 2 {
 		c = l
