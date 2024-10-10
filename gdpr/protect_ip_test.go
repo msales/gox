@@ -100,7 +100,7 @@ func Test_ProtectIP_String(t *testing.T) {
 		{
 			name: "raw ip v6",
 			ip:   "2001:0000:130F:0000:0000:09C0:876A:130B",
-			want: "2001:0000:130F:0000:0000:09C0:0000:0000",
+			want: "2001:0000:130f:0000:0000:09c0:0000:0000",
 		},
 	}
 	for _, tt := range tests {
