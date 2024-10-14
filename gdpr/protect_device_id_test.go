@@ -19,6 +19,16 @@ func Test_ProtectDeviceID(t *testing.T) {
 			want:  "",
 		},
 		{
+			name:  "unknown value",
+			value: "unknown",
+			want:  "unknown",
+		},
+		{
+			name:  "non available value",
+			value: "N/A",
+			want:  "N/A",
+		},
+		{
 			name:  "correct value to protect",
 			value: "some_value",
 			want:  "some_val**",
