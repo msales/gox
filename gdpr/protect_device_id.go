@@ -10,9 +10,12 @@ const (
 
 // ProtectDeviceID hides last two character from passed device id and returns string with protected value
 func ProtectDeviceID(val string) string {
-	lowered := strings.ToLower(val)
+	if val == "" {
+		return val
+	}
 
-	if val == "" || lowered == unknownValue || lowered == nonAvailableValue {
+	lowered := strings.ToLower(val)
+	if lowered == unknownValue || lowered == nonAvailableValue {
 		return val
 	}
 

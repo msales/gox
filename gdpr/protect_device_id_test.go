@@ -86,3 +86,48 @@ func BenchmarkProtectDeviceID(b *testing.B) {
 		ProtectDeviceID(strconv.Itoa(i))
 	}
 }
+
+func BenchmarkProtectDeviceID_Empty(b *testing.B) {
+	b.ResetTimer()
+	b.ReportAllocs()
+
+	for i := 0; i < b.N; i++ {
+		ProtectDeviceID("")
+	}
+}
+
+func BenchmarkProtectDeviceID_NA_Mixed(b *testing.B) {
+	b.ResetTimer()
+	b.ReportAllocs()
+
+	for i := 0; i < b.N; i++ {
+		ProtectDeviceID("N/a")
+	}
+}
+
+func BenchmarkProtectDeviceID_NA_Lower(b *testing.B) {
+	b.ResetTimer()
+	b.ReportAllocs()
+
+	for i := 0; i < b.N; i++ {
+		ProtectDeviceID("n/a")
+	}
+}
+
+func BenchmarkProtectDeviceID_Unknown_Mixed(b *testing.B) {
+	b.ResetTimer()
+	b.ReportAllocs()
+
+	for i := 0; i < b.N; i++ {
+		ProtectDeviceID("Unknown")
+	}
+}
+
+func BenchmarkProtectDeviceID_Unknown_Lower(b *testing.B) {
+	b.ResetTimer()
+	b.ReportAllocs()
+
+	for i := 0; i < b.N; i++ {
+		ProtectDeviceID("unknown")
+	}
+}
