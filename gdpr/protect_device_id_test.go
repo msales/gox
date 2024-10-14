@@ -19,6 +19,36 @@ func Test_ProtectDeviceID(t *testing.T) {
 			want:  "",
 		},
 		{
+			name:  "unknown value - lower case",
+			value: "unknown",
+			want:  "unknown",
+		},
+		{
+			name:  "unknown value - upper case",
+			value: "UNKNOWN",
+			want:  "UNKNOWN",
+		},
+		{
+			name:  "unknown value - mixed case",
+			value: "unKNowN",
+			want:  "unKNowN",
+		},
+		{
+			name:  "non available value - upper case",
+			value: "N/A",
+			want:  "N/A",
+		},
+		{
+			name:  "non available value - lower case",
+			value: "n/a",
+			want:  "n/a",
+		},
+		{
+			name:  "non available value - mixed case",
+			value: "n/A",
+			want:  "n/A",
+		},
+		{
 			name:  "correct value to protect",
 			value: "some_value",
 			want:  "some_val**",
@@ -54,5 +84,50 @@ func BenchmarkProtectDeviceID(b *testing.B) {
 
 	for i := 0; i < b.N; i++ {
 		ProtectDeviceID(strconv.Itoa(i))
+	}
+}
+
+func BenchmarkProtectDeviceID_Empty(b *testing.B) {
+	b.ResetTimer()
+	b.ReportAllocs()
+
+	for i := 0; i < b.N; i++ {
+		ProtectDeviceID("")
+	}
+}
+
+func BenchmarkProtectDeviceID_NA_Mixed(b *testing.B) {
+	b.ResetTimer()
+	b.ReportAllocs()
+
+	for i := 0; i < b.N; i++ {
+		ProtectDeviceID("N/a")
+	}
+}
+
+func BenchmarkProtectDeviceID_NA_Lower(b *testing.B) {
+	b.ResetTimer()
+	b.ReportAllocs()
+
+	for i := 0; i < b.N; i++ {
+		ProtectDeviceID("n/a")
+	}
+}
+
+func BenchmarkProtectDeviceID_Unknown_Mixed(b *testing.B) {
+	b.ResetTimer()
+	b.ReportAllocs()
+
+	for i := 0; i < b.N; i++ {
+		ProtectDeviceID("Unknown")
+	}
+}
+
+func BenchmarkProtectDeviceID_Unknown_Lower(b *testing.B) {
+	b.ResetTimer()
+	b.ReportAllocs()
+
+	for i := 0; i < b.N; i++ {
+		ProtectDeviceID("unknown")
 	}
 }

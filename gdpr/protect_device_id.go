@@ -1,12 +1,21 @@
 package gdpr
 
+import "strings"
+
 const (
-	hiddenRune = '*'
+	hiddenRune        = '*'
+	unknownValue      = "unknown"
+	nonAvailableValue = "n/a"
 )
 
 // ProtectDeviceID hides last two character from passed device id and returns string with protected value
 func ProtectDeviceID(val string) string {
 	if val == "" {
+		return val
+	}
+
+	lowered := strings.ToLower(val)
+	if lowered == unknownValue || lowered == nonAvailableValue {
 		return val
 	}
 
