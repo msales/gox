@@ -14,3 +14,18 @@ func IsUnique[T comparable](el []T) bool {
 
 	return true
 }
+
+// IsUniqueWithKeyBuilder checks if all elements in a slice after being transformed by the KeyBuilder function.
+func IsUniqueWithKeyBuilder[T any, C comparable](el []T, kb KeyBuilder[T, C]) bool {
+	seen := make(Set[C])
+	for _, t := range el {
+		k := kb(t)
+		if seen.Has(k) {
+			return false
+		}
+
+		seen.Add(k)
+	}
+
+	return true
+}
