@@ -13,11 +13,13 @@ func (i *IndexedSet[Key, Value]) Add(k Key, v Value) {
 		i.m = make(map[Key]int)
 	}
 
-	if !i.Has(k) {
-		i.k = append(i.k, k)
-		i.v = append(i.v, v)
+	if idx, ok := i.m[k]; ok {
+		i.v[idx] = v
+		return
 	}
 
+	i.k = append(i.k, k)
+	i.v = append(i.v, v)
 	i.m[k] = len(i.k) - 1
 }
 
