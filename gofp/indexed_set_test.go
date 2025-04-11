@@ -70,3 +70,21 @@ func Test_IndexedSet_Add(t *testing.T) {
 	assert.True(t, ok)
 	assert.Equal(t, 3, val)
 }
+
+func Test_IndexedSet_Keys(t *testing.T) {
+	var intSet gofp.IndexedSet[int, int]
+	intSet.Add(1, 2)
+	intSet.Add(2, 3)
+	intSet.Add(2, 1)
+
+	assert.Equal(t, []int{1, 2}, intSet.Keys())
+}
+
+func Test_IndexedSet_Values(t *testing.T) {
+	var intSet gofp.IndexedSet[int, int]
+	intSet.Add(1, 2)
+	intSet.Add(2, 3)
+	intSet.Add(2, 1)
+
+	assert.Equal(t, []int{2, 1}, intSet.Values())
+}
