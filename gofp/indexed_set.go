@@ -25,7 +25,12 @@ func (i *IndexedSet[Key, Value]) Add(k Key, v Value) {
 
 // Get returns a the value assigned to the provided key.
 func (i *IndexedSet[Key, Value]) Get(k Key) (Value, bool) {
+	var empty Value
 	idx, ok := i.m[k]
+	if !ok {
+		return empty, ok
+	}
+
 	return i.v[idx], ok
 }
 
