@@ -29,13 +29,13 @@ jobs:
         run: go install honnef.co/go/tools/cmd/staticcheck@latest
 
       - name: Install cover
-        run: go get -u golang.org/x/tools/cmd/cover
+        run: go install golang.org/x/tools/cmd/cover@latest
 
       - name: Install vet
-        run: go get -u github.com/mattn/goveralls
+        run: go install github.com/mattn/goveralls@latest
 
       - name: Install goveralls
-        run: go get -u github.com/mattn/goveralls
+        run: go install github.com/mattn/goveralls@latest
 
       - name: Staticcheck
         run: staticcheck -checks="all,-ST1000,-SA1019" github.com/msales/gox/...
