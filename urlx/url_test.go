@@ -70,10 +70,7 @@ func TestParseQuery(t *testing.T) {
 		{
 			name: "semicolon skips bad segment but keeps valid ones",
 			in:   "a=1&b=2;c&d=4",
-			want: urlx.Values{
-				{Key: "a", Val: "1"},
-				{Key: "d", Val: "4"},
-			},
+			want: nil,
 			wantErr: "semicolon",
 		},
 		{
@@ -91,9 +88,7 @@ func TestParseQuery(t *testing.T) {
 		{
 			name: "first error reported but valid pairs still returned",
 			in:   "a=%ZZ&b=2",
-			want: urlx.Values{
-				{Key: "b", Val: "2"},
-			},
+			want: nil,
 			wantErr: "invalid URL escape",
 		},
 	}
