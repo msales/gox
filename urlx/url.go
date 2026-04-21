@@ -15,35 +15,29 @@ import (
 // ampersands. A setting without an equals sign is interpreted as a key
 // set to an empty value. Settings containing a non-URL-encoded semicolon
 // are considered invalid.
-func ParseQuery(query string) (v Values, err error) {
+func ParseQuery(query string) (Values, error) {
+	var v Values
 	for query != "" {
 		var key string
 		key, query, _ = strings.Cut(query, "&")
 		if strings.Contains(key, ";") {
-			err = fmt.Errorf("invalid semicolon separator in query")
-			continue
+			return nil, fmt.Errorf("invalid semicolon separator in query")
 		}
 		if key == "" {
 			continue
 		}
 		key, value, _ := strings.Cut(key, "=")
-		key, err1 := url.QueryUnescape(key)
-		if err1 != nil {
-			if err == nil {
-				err = err1
-			}
-			continue
+		key, err := url.QueryUnescape(key)
+		if err != nil {
+			return nil, fmt.Errorf("unescaping key %q: %w", key, err)
 		}
-		value, err1 = url.QueryUnescape(value)
-		if err1 != nil {
-			if err == nil {
-				err = err1
-			}
-			continue
+		value, err = url.QueryUnescape(value)
+		if err != nil {
+			return nil, fmt.Errorf("unescaping value %q: %w", value, err)
 		}
 
 		v = append(v, Param{Key: key, Val: value})
 	}
 
-	return v, err
+	return v, nil
 }
